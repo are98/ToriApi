@@ -1,0 +1,434 @@
+openapi: 3.0.0
+info:
+  title: ToriApi
+  version: '1.0'
+  contact:
+    name: Arttu Kemppainen
+
+servers:
+  - url: 'http://localhost:3000'
+
+paths:
+
+  /users:
+    post:
+      summary: ''
+      operationId: post-users
+      responses:
+        '201':
+          description: Created
+      description: registration
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                firstName:
+                  type: string
+                lastName:
+                  type: string
+                password:
+                  type: string
+                location:
+                  type: object
+                  properties:
+                    country:
+                      type: string
+                    city:
+                      type: string
+                    postalCode:
+                      type: string
+                    streetAddress:
+                      type: string
+                  required:
+                    - country
+                    - city
+                    - postalCode
+                    - streetAddress
+              required:
+                - email
+                - firstName
+                - lastName
+                - password
+            examples:
+              example-1:
+                value:
+                  email: t7kear00@students.oamk.fi
+                  firstName: Arttu
+                  lastName: Kemppainen
+                  password: '12345678'
+                  location:
+                    country: Finland
+                    city: Oulu
+                    postalCode: '90120'
+                    streetAddress: Hallituskatu 10 A 2
+
+
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: Not Found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+            examples:
+              example-1:
+                value:
+                  email: string
+                  password: string
+      description: login
+
+
+  /postings:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  category:
+                    type: string
+                  location:
+                    type: object
+                    properties:
+                      country:
+                        type: string
+                      city:
+                        type: string
+                  images:
+                    $ref: ''
+                  price:
+                    type: number
+                  dateOfPosting:
+                    type: string
+                    description: 'YYYY-MM-DD hh:mm:ss'
+                  sellerName:
+                    type: string
+                  deliveryType:
+                    type: object
+                    properties:
+                      shipping:
+                        type: boolean
+                      pickup:
+                        type: boolean
+              examples:
+                example-1:
+                  value:
+                    title: Ikea limon table
+                    description: 'ikea limon table, good condition'
+                    category: tables
+                    location:
+                      country: Finalnd
+                      city: Oulu
+                    images: null
+                    price: 40
+                    dateOfPosting: '2020-09-30 11:43'
+                    sellerName: Arttu Kemppainen
+                    deliveryType:
+                      shipping: false
+                      pickup: true
+        '404':
+          description: Not Found
+      operationId: get-postings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                location:
+                  type: object
+                  properties:
+                    country:
+                      type: string
+                    city:
+                      type: string
+                dateOfPosting:
+                  type: string
+                  description: 'YYYY-MM-DD hh:mm'
+            examples:
+              example-1:
+                value:
+                  category: Tables
+                  location:
+                    country: Finland
+                    city: Oulu
+                  dateOfPosting: '2020-09-30 11:43'
+        description: ''
+      description: ''
+
+
+    post:
+      summary: ''
+      operationId: post-postings
+      responses:
+        '201':
+          description: Created
+      description: add new item to sell
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                category:
+                  type: string
+                location:
+                  type: object
+                  properties:
+                    country:
+                      type: string
+                    city:
+                      type: string
+                images:
+                  $ref: ''
+                price:
+                  type: number
+                dateOfPosting:
+                  type: string
+                sellerName:
+                  type: string
+                deliveryType:
+                  type: object
+                  properties:
+                    shipping:
+                      type: boolean
+                    pickup:
+                      type: boolean
+            examples:
+              example-1:
+                value:
+                  title: Ikea limon table
+                  description: 'ikea limon table, good condition'
+                  category: tables
+                  location:
+                    country: Finland
+                    city: Oulu
+                  images: null
+                  price: 40
+                  dateOfPosting: '2020-09-30 11:43'
+                  sellerName: Arttu Kemppainen
+                  deliveryType:
+                    shipping: false
+                    pickup: true
+
+
+  '/postings/{postingId}':
+    parameters:
+      - schema:
+          type: string
+        name: postingId
+        in: path
+        required: true
+    delete:
+      summary: ''
+      operationId: delete-postings-postingId
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Posting ID Not Found
+      description: delete posting
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                postingId:
+                  type: string
+
+    put:
+      summary: ''
+      operationId: put-postings-postingId
+      responses:
+        '200':
+          description: OK
+      description: Modify posting
+
+    get:
+      summary: ''
+      operationId: get-postings-postingId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  category:
+                    type: string
+                  location:
+                    type: object
+                    properties:
+                      country:
+                        type: string
+                      city:
+                        type: string
+                  images:
+                    $ref: ''
+                  price:
+                    type: number
+                  dateOfPosting:
+                    type: string
+                  sellerName:
+                    type: string
+                  deliveryType:
+                    type: object
+                    properties:
+                      shipping:
+                        type: boolean
+                      pickup:
+                        type: boolean
+              examples:
+                example-1:
+                  value:
+                    title: string
+                    description: string
+                    category: string
+                    location:
+                      country: string
+                      city: string
+                    images: null
+                    price: 0
+                    dateOfPosting: string
+                    sellerName: string
+                    deliveryType:
+                      shipping: true
+                      pickup: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+
+
+components:
+  schemas:
+    userInfo:
+      title: userInfo
+      type: object
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        password:
+          type: string
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            city:
+              type: string
+            postalCode:
+              type: string
+            streetAddress:
+              type: string
+
+    postingInformation:
+      title: postingInformation
+      type: object
+      x-examples:
+        example-1:
+          id: '2304501'
+          title: Ikea Limon Table
+          description: Ikea Limon table in good condition
+          category: Tables
+          location:
+            country: Finland
+            city: Oulu
+          images: null
+          price: 40
+          dateOfPosting: '2020-09-30 11:43'
+          sellerName: Arttu Kemppainen
+          deliveryType:
+            shipping: false
+            pickup: true
+            
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        location:
+          type: object
+          properties:
+            country:
+              type: string
+            city:
+              type: string
+          required:
+            - country
+            - city
+        images:
+          $ref: ''
+        price:
+          type: number
+        dateOfPosting:
+          type: string
+          description: 'YYYY-MM-DD HH:MM'
+        sellerName:
+          type: string
+        deliveryType:
+          type: object
+          properties:
+            shipping:
+              type: boolean
+            pickup:
+              type: boolean
+      required:
+        - title
+        - category
+        - price
+        - sellerName

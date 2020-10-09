@@ -128,8 +128,8 @@ describe('Tori operations', function(){
 
     
 
- /*   
-   
+    
+/*   
     describe('create a new user', function(){
         it('Should add a new user', async function() {
             await chai.request(apiAddress)
@@ -167,8 +167,8 @@ describe('Tori operations', function(){
             
         })
     })
-
 */
+
 
 
 

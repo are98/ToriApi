@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const { v4: uuidv4 } = require('uuid');
 const app = express()
 const port = 3000
+const querystring = require('querystring');
+
 
 
 
@@ -54,18 +56,9 @@ let posting = [
 ]
 
 
-//tässä täytyy etsiä postauksia query parametreilla
 app.get('/postings', (req, res) => {
 
-  /*var category = req.query.category;
-  var location = req.query.location;
-  var dateOfPosting = req.query.dateOfPosting;
-
-  var category = require('category');
-  var category_parts = category.parse(request.category, true);
-  var category_query = category_parts.query;*/
-
-
+  //res.send('/category: ' + req.posting.category);
 
   res.json({posting})
 })
@@ -124,19 +117,16 @@ app.post('/users', (req, res) => {
     }
   }
 
-  /*
   if('email' in req.body == false ) {
     res.status(400);
     res.json({status: "Give a email"})
     return;
   }
-
   if('password' in req.body == false ) {
     res.status(400);
     res.json({status: "Give a password"})
     return;
   }
-
   if('firstName' in req.body == false ) {
     res.status(400);
     res.json({status: "Give a first name"})
@@ -146,7 +136,27 @@ app.post('/users', (req, res) => {
     res.status(400);
     res.json({status: "Give a last name"})
     return;
-  }*/
+  }
+  if('country' in req.body.location == false ) {
+    res.status(400);
+    res.json({status: "Give a country"})
+    return;
+  }
+  if('city' in req.body.location == false ) {
+    res.status(400);
+    res.json({status: "Give a city"})
+    return;
+  }
+  if('postalCode' in req.body.location == false ) {
+    res.status(400);
+    res.json({status: "Give a postal code"})
+    return;
+  }
+  if('streetAddress' in req.body.location == false ) {
+    res.status(400);
+    res.json({status: "Give a street address"})
+    return;
+  }
   
 
 
