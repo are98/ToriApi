@@ -17,8 +17,13 @@
   },
   "homepage": "https://github.com/are98/ToriApi#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "chai-http": "^4.3.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
+    "passport-jwt": "^4.0.0",
     "uuid": "^8.3.0"
   },
   "devDependencies": {

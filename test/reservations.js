@@ -8,6 +8,47 @@ const server = require('../server')
 const expect = chai.expect;
 const apiAddress = 'http://localhost:3000';
 
+describe('register', function(){
+
+    before(function() {
+        server.start();
+    });
+
+    after(function() {
+        server.stop();
+    })
+
+
+    describe('create a new user', function(){
+        it('Should add a new user', async function() {
+            await chai.request(apiAddress)
+            .post('/users')
+            .send({
+                id: 1234,
+                email: 'email',
+                firstName: 'firstName',
+                lastName: 'lastName',
+                password: 'password',
+                address: {
+                    country: 'country',
+                    city: 'city',
+                    postalCode: 'postalCode',
+                    streetAddress: 'streetAddress'
+                }
+            }).then(response => {
+                expect(response.status).to.equal(201)
+                return chai.request(apiAddress).get('/users');
+            })
+            
+            .catch(error => {
+                expect.fail(error)
+            })
+            
+        })
+    })
+
+})
+
 describe('Tori operations', function(){
 
     before(function() {
@@ -19,7 +60,8 @@ describe('Tori operations', function(){
     })
 
 
-   
+   ////////////////////
+
 
 
     describe('get postings', function() {
@@ -116,6 +158,22 @@ describe('Tori operations', function(){
         })
     })
 
+
+    describe('get posting by id', function() {
+        it('Should respond with an array of postings',async function(){
+            await chai.request(apiAddress)
+            .get('/postings/1')
+            .then(response => {
+                expect(response.status).to.equal(200);
+
+    
+            }).catch(error => {
+                expect().fail(error)
+            })
+        })
+    })
+
+
     describe('delete posting', function() {
         it('Should delete posting by id', async function() {
             await chai.request(apiAddress)
@@ -127,72 +185,5 @@ describe('Tori operations', function(){
     })
 
     
-
-    
-/*   
-    describe('create a new user', function(){
-        it('Should add a new user', async function() {
-            await chai.request(apiAddress)
-            .post('/users')
-            .send({
-                id: 1234,
-                email: 'email',
-                firstName: 'firstName',
-                lastName: 'lastName',
-                password: 'password',
-                address: {
-                    country: 'country',
-                    city: 'city',
-                    postalCode: 'postalCode',
-                    streetAddress: 'streetAddress'
-                }
-            }).then(response => {
-                expect(response.status).to.equal(201)
-                return chai.request(apiAddress).get('/users');
-            })
-            .then(readResponse => {
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].id).to.equal(1234);
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].firstName).to.equal('firstName');
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].lastName).to.equal('lastName');
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].password).to.equal('password');
-
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].address.country).to.equal('country');
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].address.city).to.equal('city');
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].address.postalCode).to.equal('postalCode');
-                expect(readResponse.body.userInfo[readResponse.body.userInfo.length - 1].address.streetAddress).to.equal('streetAddress');
-            })
-            .catch(error => {
-                expect.fail(error)
-            })
-            
-        })
-    })
-*/
-
-
-
-
-
- 
-
-    /*describe('get posting by id', function() {
-        it('Should respond with an array of postings',async function(){
-            await chai.request(apiAddress)
-            .get('/postings/' + 1)
-            .then(response => {
-                expect(response.status).to.equal(200);
-
-                res.body.should.be.a('object');
-                
-
-                res.body.should.have.property('id').eql(1);
-
-                
-                
-            }).catch(error => {
-                expect().fail(error)
-            })
-        })
-    })*/
 
 })
